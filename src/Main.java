@@ -40,6 +40,7 @@ import Decoder.BASE64Encoder;
  * CopyRight daiminglong, this code used to config OpenV Switch's flow-table.
  * all OpenV Switchs are controlled by Floodlight SDN Controller.
  * put flow-entry (according to path.txt) & clear flow-entry included already. 
+ * just useful for floodlight v1.0~v1.2
  * @since 2017-1-10
  * @author daiminglong
  * 
@@ -56,7 +57,8 @@ public class Main {
 	public static String PREFIX_URL = "http://192.168.0.233:50000/";
 	//public static String ADD_FLOWENTRY_REST = "wm/staticflowentrypusher/json";
 	public static String ADD_FLOWENTRY_REST = "wm/staticflowpusher/json";
-	public static String CLEAR_FLOWENTRY_REST = "wm/staticflowentrypusher/clear/00:00:08:00:27:14:0a:8f/json";
+	//public static String CLEAR_FLOWENTRY_REST = "wm/staticflowentrypusher/clear/00:00:08:00:27:14:0a:8f/json";
+	public static String CLEAR_FLOWENTRY_REST = "wm/staticflowpusher/clear/all/json";
 	public static String DEL_FLOWENTRY_REST = "wm/staticflowentrypusher/json";
 	
 	
@@ -258,11 +260,6 @@ public class Main {
             	            map.put("ip_proto", "0x06");
             	            //map.put("tcp_src", port1);
             	            map.put("tcp_dst", port2);
-            	            //map.put("src-mac", hostMap.get(host1).getMac());
-            	            //map.put("dst-mac", hostMap.get(host2).getMac());
-            	            //map.put("src-ip", hostMap.get(host1).getIP());
-            	            //map.put("dst-ip", hostMap.get(host2).getIP());
-            	            //map.put("ingress-port", "" + es.getPortIdByHostId(host1)); 
             	            map.put("active", "true");
             	            if(host2!=pathNodeArray[j]) {
                	            	map.put("actions", "output=" + es.getPortIdByOVSId(pathNodeArray[j+1]));
@@ -271,9 +268,6 @@ public class Main {
             	            }
             	             
             	            sendAddFlowEntryRequest(PREFIX_URL+ADD_FLOWENTRY_REST,map);
-            	            /*JSONObject json = JSONObject.fromObject(map);  
-                            System.out.println(json.toString());
-                            System.out.println("-------------------");*/
     
                             map.clear();
     
@@ -287,15 +281,6 @@ public class Main {
             	            map.put("ip_proto", "0x06");
             	            //map.put("tcp_src", port2);
             	            //map.put("tcp_dst", port1);
-//            	            map.put("src-ip", hostMap.get(host2).getIP());
-//            	            map.put("dst-ip", hostMap.get(host1).getIP());
-//            	            if(host2!=pathNodeArray[j]) {
-//            	            	map.put("ingress-port", "" + es.getPortIdByOVSId(pathNodeArray[j+1]));
-//            	            }else {
-//            	            	map.put("ingress-port", "" + es.getPortIdByHostId(host2));
-//            	            }
-            	            //map.put("src-mac", hostMap.get(host2).getMac());
-            	            //map.put("dst-mac", hostMap.get(host1).getMac());
             	            map.put("active", "true");
             	            map.put("actions", "output=" + es.getPortIdByHostId(host1));
             	            
@@ -318,11 +303,6 @@ public class Main {
             	            map.put("ip_proto", "0x06");
             	            //map.put("tcp_src", port1);
             	            map.put("tcp_dst", port2);
-//            	            map.put("src-ip", hostMap.get(host1).getIP());
-//            	            map.put("dst-ip", hostMap.get(host2).getIP());
-            	            //map.put("src-mac", hostMap.get(host1).getMac());
-            	            //map.put("dst-mac", hostMap.get(host2).getMac());
-//            	            map.put("ingress-port", "" + es.getPortIdByOVSId(pathNodeArray[j-1])); 
             	            map.put("active", "true");
             	            map.put("actions","output=" + es.getPortIdByHostId(host2));
             	             
@@ -343,17 +323,8 @@ public class Main {
             	            map.put("ip_proto", "0x06");
             	            //map.put("tcp_src", port2);
             	            //map.put("tcp_dst", port1);
-//            	            map.put("src-ip", hostMap.get(host2).getIP());
-//            	            map.put("dst-ip", hostMap.get(host1).getIP());
-            	            //map.put("src-mac", hostMap.get(host2).getMac());
-            	            //map.put("dst-mac", hostMap.get(host1).getMac());
-//            	            map.put("ingress-port", "" + es.getPortIdByHostId(host2));
             	            map.put("active", "true");
             	            map.put("actions", "output=" + es.getPortIdByOVSId(pathNodeArray[j-1]));
-            	            
-            	            /*JSONObject json2 = JSONObject.fromObject(map);  
-                            System.out.println(json2.toString());
-                            System.out.println("-------------------");*/
             	            
             	            sendAddFlowEntryRequest(PREFIX_URL+ADD_FLOWENTRY_REST,map);
             			}
@@ -375,18 +346,10 @@ public class Main {
             	            map.put("ip_proto", "0x06");
             	            //map.put("tcp_src", port1);
             	            map.put("tcp_dst", port2);
-//            	            map.put("src-ip", hostMap.get(host1).getIP());
-//            	            map.put("dst-ip", hostMap.get(host2).getIP());
-            	            //map.put("src-mac", hostMap.get(host1).getMac());
-            	            //map.put("dst-mac", hostMap.get(host2).getMac());
-//            	            map.put("ingress-port", "" + os.getPortIdByOVSId(pathNodeArray[j-1])); 
             	            map.put("active", "true");
             	            map.put("actions", "output=" + os.getPortIdByOVSId(pathNodeArray[j+1]));
             	             
             	            sendAddFlowEntryRequest(PREFIX_URL+ADD_FLOWENTRY_REST,map);
-            	            /*JSONObject json = JSONObject.fromObject(map);  
-                            System.out.println(json.toString());
-                            System.out.println("-------------------");*/
     
                             map.clear();
     
@@ -400,17 +363,9 @@ public class Main {
             	            map.put("ip_proto", "0x06");
             	            //map.put("tcp_src", port2);
             	            //map.put("tcp_dst", port1);
-//            	            map.put("src-ip", hostMap.get(host2).getIP());
-//            	            map.put("dst-ip", hostMap.get(host1).getIP());
-            	            //map.put("src-mac", hostMap.get(host2).getMac());
-            	            //map.put("dst-mac", hostMap.get(host1).getMac());
-//            	            map.put("ingress-port", "" + os.getPortIdByOVSId(pathNodeArray[j+1]));
             	            map.put("active", "true");
             	            map.put("actions", "output=" + os.getPortIdByOVSId(pathNodeArray[j-1]));
-            	            
-            	            /*JSONObject json2 = JSONObject.fromObject(map);  
-                            System.out.println(json2.toString());
-                            System.out.println("-------------------");*/
+            	           
                             sendAddFlowEntryRequest(PREFIX_URL+ADD_FLOWENTRY_REST,map);
             			}
             		}
@@ -598,17 +553,11 @@ public class Main {
 		initNet("src/host.txt", "src/switch.txt", "src/topo.txt");
 		
 		//delete all old flow-entry
-//		try {
-//			delFlowEntry();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		clearFlowEntry(PREFIX_URL+CLEAR_FLOWENTRY_REST);
 		
+		//put new flow-entry according to path<x>.txt
 		try {
-			//put new flow-entry according to path.txt
 			setFlowEntry(2,0);
-			//setFlowEntry(1,Integer.parseInt(args[0]));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
